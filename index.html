@@ -1,18 +1,829 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>HTML 샘플 페이지</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>송하 포트폴리오</title>
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-soft: #0b1020;
+      --accent: #4f46e5;
+      --accent-soft: #6366f1;
+      --text-main: #f9fafb;
+      --text-sub: #9ca3af;
+      --card: #111827;
+      --border-soft: #1f2937;
+      --radius-xl: 18px;
+      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.45);
+      --max-width: 1040px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #111827 0, #020617 45%, #000 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .wrapper {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 20px 16px 60px;
+    }
+
+    /* ===== 상단 네비게이션 ===== */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0 14px;
+    }
+
+    .logo {
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      font-size: 1rem;
+      text-transform: uppercase;
+      color: var(--text-sub);
+    }
+
+    .logo span {
+      color: var(--accent-soft);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      font-size: 0.92rem;
+    }
+
+    .nav-links a {
+      color: var(--text-sub);
+      padding: 6px 10px;
+      border-radius: 999px;
+      transition: background 0.2s ease, color 0.2s ease, transform 0.1s ease;
+    }
+
+    .nav-links a:hover {
+      background: rgba(99, 102, 241, 0.14);
+      color: var(--text-main);
+      transform: translateY(-1px);
+    }
+
+    .nav-toggle {
+      display: none;
+      border: none;
+      background: transparent;
+      color: var(--text-main);
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+
+    /* ===== 히어로(메인 상단) ===== */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.7fr);
+      gap: 40px;
+      align-items: center;
+      padding: 34px 0 40px;
+    }
+
+    .hero-text small {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent-soft);
+    }
+
+    .hero-text h1 {
+      font-size: clamp(2.2rem, 3vw, 2.8rem);
+      margin-top: 10px;
+      margin-bottom: 8px;
+    }
+
+    .hero-text h1 span {
+      color: var(--accent-soft);
+    }
+
+    .hero-text p {
+      font-size: 0.97rem;
+      color: var(--text-sub);
+      max-width: 460px;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 16px 0 24px;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      color: var(--text-sub);
+    }
+
+    .badge strong {
+      color: var(--accent-soft);
+      font-weight: 600;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 9px 18px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.1s ease,
+        border-color 0.2s ease, color 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+      color: #eef2ff;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 20px 50px rgba(79, 70, 229, 0.65);
+    }
+
+    .btn-ghost {
+      background: rgba(15, 23, 42, 0.85);
+      border-color: var(--border-soft);
+      color: var(--text-sub);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(15, 23, 42, 1);
+      color: var(--text-main);
+      border-color: rgba(148, 163, 184, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .hero-right {
+      background: radial-gradient(circle at top, #1e293b 0, #020617 55%);
+      border-radius: 26px;
+      padding: 18px 18px 18px;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-tag {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--text-sub);
+      margin-bottom: 10px;
+    }
+
+    .hero-card {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 18px;
+      padding: 16px 14px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+
+    .hero-card h2 {
+      font-size: 1.1rem;
+      margin-bottom: 6px;
+    }
+
+    .hero-card p {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      margin-bottom: 10px;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      font-size: 0.75rem;
+      margin-top: 6px;
+    }
+
+    .stat {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 10px;
+      padding: 8px 9px;
+      border: 1px solid rgba(55, 65, 81, 0.75);
+    }
+
+    .stat-label {
+      color: var(--text-sub);
+      font-size: 0.7rem;
+    }
+
+    .stat-value {
+      font-weight: 600;
+      margin-top: 2px;
+      font-size: 0.85rem;
+    }
+
+    /* 공통 섹션 스타일 */
+    section {
+      margin-top: 40px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 16px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+    }
+
+    .section-sub {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+    }
+
+    /* ===== About ===== */
+    .about {
+      background: var(--bg-soft);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-soft);
+      padding: 18px 18px 16px;
+    }
+
+    .about p {
+      font-size: 0.9rem;
+      color: var(--text-sub);
+      margin-bottom: 10px;
+    }
+
+    .about-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      font-size: 0.8rem;
+      margin-top: 6px;
+    }
+
+    .about-item {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 12px;
+      padding: 9px 10px;
+      border: 1px solid rgba(31, 41, 55, 0.9);
+    }
+
+    .about-item span {
+      display: block;
+      color: var(--text-sub);
+      font-size: 0.78rem;
+    }
+
+    .about-item strong {
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* ===== Skills ===== */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+    }
+
+    .skill-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 12px 12px 10px;
+      border: 1px solid var(--border-soft);
+    }
+
+    .skill-card h3 {
+      font-size: 0.95rem;
+      margin-bottom: 5px;
+    }
+
+    .skill-chip-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .chip {
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #020617;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      color: var(--text-sub);
+    }
+
+    /* ===== Projects ===== */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 14px;
+    }
+
+    .project-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: 12px 12px 10px;
+      border: 1px solid var(--border-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .project-card h3 {
+      font-size: 0.95rem;
+      margin-bottom: 2px;
+    }
+
+    .project-meta {
+      font-size: 0.75rem;
+      color: var(--text-sub);
+    }
+
+    .project-desc {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      margin-top: 4px;
+      margin-bottom: 6px;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: auto;
+      font-size: 0.75rem;
+    }
+
+    .tag {
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #020617;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      color: var(--text-sub);
+    }
+
+    .project-link {
+      font-size: 0.8rem;
+      margin-top: 4px;
+      color: var(--accent-soft);
+    }
+
+    /* ===== Contact ===== */
+    .contact {
+      background: var(--bg-soft);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-soft);
+      padding: 18px 18px 16px;
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 2fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .contact p {
+      font-size: 0.9rem;
+      color: var(--text-sub);
+      margin-bottom: 10px;
+    }
+
+    .contact-list {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      display: grid;
+      gap: 6px;
+    }
+
+    .contact-list span {
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    form {
+      display: grid;
+      gap: 8px;
+      font-size: 0.85rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      background: #020617;
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      padding: 7px 9px;
+      color: var(--text-main);
+      font-size: 0.85rem;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent-soft);
+      box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.6);
+    }
+
+    textarea {
+      min-height: 90px;
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      margin-top: 26px;
+      font-size: 0.75rem;
+      color: var(--text-sub);
+      text-align: center;
+      padding-top: 12px;
+      border-top: 1px solid rgba(15, 23, 42, 0.9);
+    }
+
+    /* ===== 반응형 ===== */
+    @media (max-width: 840px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero-right {
+        order: -1;
+      }
+      .contact {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-toggle {
+        display: block;
+      }
+      .nav-links {
+        display: none;
+        position: absolute;
+        right: 16px;
+        top: 54px;
+        background: rgba(15, 23, 42, 0.98);
+        padding: 8px 10px;
+        border-radius: 14px;
+        border: 1px solid rgba(31, 41, 55, 0.9);
+        flex-direction: column;
+        min-width: 150px;
+      }
+      .nav-links.show {
+        display: flex;
+      }
+      .hero {
+        padding-top: 20px;
+      }
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <div class="wrapper nav">
+      <div class="logo">
+        <span>SH</span> PORTFOLIO
+      </div>
+      <button class="nav-toggle" aria-label="메뉴 열기/닫기">☰</button>
+      <nav class="nav-links">
+        <a href="#about">소개</a>
+        <a href="#skills">기술</a>
+        <a href="#projects">프로젝트</a>
+        <a href="#contact">문의</a>
+      </nav>
+    </div>
+  </header>
 
-    <h1>이것은 제목입니다</h1>
-    <p>이것은 첫 번째 문단입니다.</p>
-    <p>이것은 두 번째 문단입니다.</p>
+  <main class="wrapper">
+    <!-- ===== Hero ===== -->
+    <section class="hero" id="home">
+      <div class="hero-text">
+        <small>Cloud Security · SOC</small>
+        <h1>
+          안녕하세요, <span>송하</span>입니다.<br />
+          클라우드 보안·관제를 준비하고 있어요.
+        </h1>
+        <p>
+          Suricata + Elastic Stack 기반의 지능형 침입 탐지 환경을 직접 설계하고 구축하면서
+          로그·이상행위를 데이터로 풀어내는 경험을 쌓고 있습니다.
+        </p>
 
-    <a href="https://www.google.com">구글 링크</a>
+        <div class="hero-badges">
+          <div class="badge"><strong>관심 분야</strong> · SOC, 위협 헌팅, 클라우드 보안</div>
+          <div class="badge"><strong>강점</strong> · 실습 위주, 끝까지 파는 문제 해결</div>
+        </div>
 
-    <img src="이미지_경로.jpg" alt="이미지 설명">
+        <div class="hero-actions">
+          <a href="#projects" class="btn btn-primary">프로젝트 보러가기</a>
+          <a href="#contact" class="btn btn-ghost">연락하기</a>
+        </div>
+      </div>
 
+      <aside class="hero-right">
+        <div class="hero-tag">Overview</div>
+        <div class="hero-card">
+          <h2>Argos 지능형 침입 탐지 시스템</h2>
+          <p>
+            VMware 기반 멀티 서버 환경에서 Suricata, Elastic Stack, ElastAlert2를 연동해
+            실시간 탐지·알림이 가능한 미니 SOC 환경을 직접 설계·구축한 프로젝트입니다.
+          </p>
+
+          <div class="hero-stats">
+            <div class="stat">
+              <div class="stat-label">역할</div>
+              <div class="stat-value">설계 · 구축 · 운영</div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">주요 기술</div>
+              <div class="stat-value">Suricata · ELK · FW</div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">목표</div>
+              <div class="stat-value">선제적 탐지·대응</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- ===== About ===== -->
+    <section id="about">
+      <div class="section-header">
+        <h2 class="section-title">소개</h2>
+        <p class="section-sub">보안·관제를 향해 한 걸음씩 쌓아가고 있어요.</p>
+      </div>
+
+      <div class="about">
+        <p>
+          네트워크·시스템 기초부터 직접 서버를 올리고, 공격·로그를 눈으로 확인해보면서
+          “알림을 왜 받게 됐는지”를 이해하는 보안 인력이 되고 싶습니다.
+        </p>
+        <p>
+          문제를 만나면 끝까지 원인을 파고들고, 모르는 개념은 정리해서 제 언어로 다시 설명해보는 스타일입니다.
+        </p>
+
+        <div class="about-list">
+          <div class="about-item">
+            <span>관심 직무</span>
+            <strong>SOC 관제, 보안 위협 분석</strong>
+          </div>
+          <div class="about-item">
+            <span>학습 방향</span>
+            <strong>클라우드 보안 · 네트워크 · 로그 분석</strong>
+          </div>
+          <div class="about-item">
+            <span>프로젝트 성향</span>
+            <strong>실습 중심, 재현 가능한 환경 구축</strong>
+          </div>
+          <div class="about-item">
+            <span>키워드</span>
+            <strong>꾸준함, 기록, 재현·자동화</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Skills ===== -->
+    <section id="skills">
+      <div class="section-header">
+        <h2 class="section-title">기술 스택</h2>
+        <p class="section-sub">기초를 탄탄하게, 그리고 실제로 써보는 것에 집중합니다.</p>
+      </div>
+
+      <div class="skills-grid">
+        <div class="skill-card">
+          <h3>보안 · 관제</h3>
+          <p class="section-sub">
+            기본 개념을 이해하고, 실제 로그와 공격을 연결해서 보는 연습을 하고 있습니다.
+          </p>
+          <div class="skill-chip-wrap">
+            <span class="chip">Suricata (IDS 룰 작성)</span>
+            <span class="chip">SIEM 기초</span>
+            <span class="chip">Cyber Kill Chain</span>
+            <span class="chip">MITRE ATT&amp;CK 기초</span>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <h3>인프라 · 네트워크</h3>
+          <p class="section-sub">
+            가상화 환경에서 방화벽·스위치·서버를 직접 구성해보며 트래픽 흐름을 익혔습니다.
+          </p>
+          <div class="skill-chip-wrap">
+            <span class="chip">VMware</span>
+            <span class="chip">Linux (Rocky, Ubuntu, Kali)</span>
+            <span class="chip">기본 VLAN / 서브넷</span>
+            <span class="chip">방화벽 정책 기초</span>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <h3>로그 · 데이터</h3>
+          <p class="section-sub">
+            로그를 모아서 검색·시각화하고, 이상 징후를 찾는 연습을 하고 있습니다.
+          </p>
+          <div class="skill-chip-wrap">
+            <span class="chip">Elastic Stack (ELK)</span>
+            <span class="chip">Filebeat / Logstash 파이프라인</span>
+            <span class="chip">Kibana 대시보드</span>
+            <span class="chip">기본 SQL</span>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <h3>기타</h3>
+          <p class="section-sub">
+            포트폴리오 정리와 자동화를 위해 조금씩 다뤄본 도구들입니다.
+          </p>
+          <div class="skill-chip-wrap">
+            <span class="chip">Git 기초</span>
+            <span class="chip">Notion 정리</span>
+            <span class="chip">Python 기본 문법</span>
+            <span class="chip">Excel / 데이터 분석 기초</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Projects ===== -->
+    <section id="projects">
+      <div class="section-header">
+        <h2 class="section-title">프로젝트</h2>
+        <p class="section-sub">직접 설치하고, 부딪혀보고, 정리한 경험들입니다.</p>
+      </div>
+
+      <div class="projects-grid">
+        <!-- 프로젝트 1 -->
+        <article class="project-card">
+          <h3>Argos 지능형 침입 탐지 시스템</h3>
+          <p class="project-meta">Suricata · ELK · ElastAlert2 · VMware Lab</p>
+          <p class="project-desc">
+            다수의 가상 서버와 방화벽, IDS, ELK Stack을 연동해
+            웹 공격·네트워크 이벤트를 실시간으로 수집·분석·알림까지 이어지도록 설계한 프로젝트입니다.
+          </p>
+          <div class="project-tags">
+            <span class="tag">커스텀 Suricata 룰</span>
+            <span class="tag">Kibana 대시보드</span>
+            <span class="tag">Slack/E-mail 알림</span>
+          </div>
+          <!-- 실제 링크 있으면 href 수정 -->
+          <!-- <a href="https://..." class="project-link" target="_blank">자세히 보기 →</a> -->
+        </article>
+
+        <!-- 프로젝트 2 -->
+        <article class="project-card">
+          <h3>웹 취약점 실습 &amp; 로그 분석</h3>
+          <p class="project-meta">DVWA · Web Shell · DB 연동 기초</p>
+          <p class="project-desc">
+            DVWA 환경에서 SQL Injection, XSS 등 기본 웹 공격을 실습하고,
+            웹·DB·시스템 로그를 수집해서 공격 전·후의 흐름을 정리했습니다.
+          </p>
+          <div class="project-tags">
+            <span class="tag">웹 취약점</span>
+            <span class="tag">로그 상관 분석</span>
+            <span class="tag">실습 리포트</span>
+          </div>
+        </article>
+
+        <!-- 프로젝트 3 -->
+        <article class="project-card">
+          <h3>지하철 공기질 데이터 분석</h3>
+          <p class="project-meta">MySQL · SQLD 기초 · 데이터 시각화</p>
+          <p class="project-desc">
+            공공 데이터를 활용해 역·호선별 공기질을 분석하고,
+            SQL 쿼리와 엑셀 시각화로 정리한 데이터 분석 프로젝트입니다.
+          </p>
+          <div class="project-tags">
+            <span class="tag">SQL 그룹 분석</span>
+            <span class="tag">피벗 테이블</span>
+            <span class="tag">데이터 리포트</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== Contact ===== -->
+    <section id="contact">
+      <div class="section-header">
+        <h2 class="section-title">문의 &amp; 연락</h2>
+        <p class="section-sub">함께 보안을 고민할 수 있는 기회를 기다리고 있습니다.</p>
+      </div>
+
+      <div class="contact">
+        <div>
+          <p>
+            포트폴리오나 프로젝트에 대해 궁금하신 점이 있다면,
+            아래 연락처나 폼을 통해 편하게 연락 주세요.
+          </p>
+
+          <div class="contact-list">
+            <div>📧 이메일 : <span>your-email@example.com</span></div>
+            <div>📍 지역 : <span>강원 춘천</span></div>
+            <div>💼 관심 직무 : <span>SOC 관제, 위협 분석, 클라우드 보안</span></div>
+          </div>
+        </div>
+
+        <!-- 실제로 동작하려면 백엔드 필요 / 지금은 mailto 예시 -->
+        <form action="mailto:your-email@example.com" method="post" enctype="text/plain">
+          <div>
+            <label for="name">이름</label>
+            <input id="name" name="name" type="text" placeholder="성함을 입력해주세요." required />
+          </div>
+          <div>
+            <label for="email">이메일</label>
+            <input id="email" name="email" type="email" placeholder="연락받을 이메일 주소" required />
+          </div>
+          <div>
+            <label for="message">메시지</label>
+            <textarea id="message" name="message" placeholder="간단한 문의 내용을 적어주세요." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="margin-top: 4px; width: 100%;">
+            메시지 보내기
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="year"></span> Songha · Cloud Security &amp; SOC Portfolio
+    </footer>
+  </main>
+
+  <script>
+    // 모바일 메뉴 토글
+    const navToggle = document.querySelector(".nav-toggle");
+    const navLinks = document.querySelector(".nav-links");
+
+    navToggle.addEventListener("click", () => {
+      navLinks.classList.toggle("show");
+    });
+
+    // 스무스 스크롤 (기본 동작에 살짝만)
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
+      link.addEventListener("click", (e) => {
+        const target = document.querySelector(link.getAttribute("href"));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+          navLinks.classList.remove("show");
+        }
+      });
+    });
+
+    // 푸터 연도 자동 설정
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
